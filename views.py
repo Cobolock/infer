@@ -7,6 +7,10 @@ from flask import render_template, jsonify, request
 def index():
     return render_template('index.html')
 
+@app.route('login')
+def login():
+    return 'not logged'
+
 
 @app.route('/r', methods=['POST'])
 def handle_query():
