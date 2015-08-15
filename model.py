@@ -9,5 +9,5 @@ class Controller:
     def create_new_element(attr):
         if 'names' not in session:
             session['names'] = []
-        session['names'].append
-        r.append(rtype='a', text=attr['name'])
+        session['names'].append(attr['name'])
+        r.append(rtype='a', text=','.join(session['names']))
