@@ -7,6 +7,7 @@ from flask import render_template, jsonify, request
 def index():
     return render_template('index.html')
 
+
 @app.route('/login')
 def login():
     return 'not logged'
@@ -14,4 +15,8 @@ def login():
 
 @app.route('/r', methods=['POST'])
 def handle_query():
+    try:
+        func_query = request.json['request']
+    except Exception as e:
+        print(type(e))
     return 'olo'

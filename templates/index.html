@@ -1,1 +1,23 @@
-<h1>So here we are, nigger</h1>
+<html>
+  <head>
+    <title>F</title>
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+  </head>
+  <body>
+      <h1>Делаем фиготу</h1>
+      <div id="error"></div>
+      <select id="elementsList">
+        <option data-eltype='-1' class="newElType">---------</option>
+        <option data-eltype='project' class="newElType">Проект</option>
+        <option data-eltype='system' class="newElType">Система</option>
+        <option data-eltype='block' class="newElType">Раздел</option>
+        <option data-eltype='item' class="newElType">Пункт</option>
+      </select>
+      <button id='butElCreate' onclick='Element.Create()'>Создать</button>
+      <button id='butElEdit'   onclick='Element.Edit()'>Переименовать</button>
+      <button id='butElDelete' onclick='Element.Delete()'>Удалить</button>
+      <br>
+      <input type="text" id="nameTag" width="40">
+      <div id="container"></div>
+  </body>
+</html>
