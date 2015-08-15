@@ -1,4 +1,4 @@
-from infer import response_obj as r
+from infer import session, response_obj as r
 
 
 class Controller:
@@ -7,4 +7,7 @@ class Controller:
         pass
 
     def create_new_element(attr):
-        r.append(rtype='a', text='All good')
+        if 'names' not in session:
+            session['names'] = []
+        session['names'].append
+        r.append(rtype='a', text=attr.name)

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from infer.response import Response
 
 app = Flask(__name__)
