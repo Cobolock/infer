@@ -59,12 +59,12 @@ Element.type = '-1';
 Element.Create = function(){
 
     if(this.type === '-1') {
-        UI.Error('Не выбрал тип элемента, ниггер');
+        UI.Error('Не выбрал тип элемента');
         return;
     } else {
         newName = document.getElementById('nameTag').value;
         if (newName === "") {
-            UI.Error('Не указал имя, ниггер');
+            UI.Error('Не указал имя');
             return;
         }
 
@@ -72,13 +72,13 @@ Element.Create = function(){
         var parentTag = (parent == undefined)?
                             ('root'):
                             (getData(parent, 'tag'))
-        var query = {'requesst': 'createNewElement',
+        var query = {'request': 'createNewElement',
                      'attr': {
                         'name': newName,
                         'parent': parentTag,
                         'type': this.type
                      }}
-
+                     console.log(query);
         sendStuff(query);
         return;
     }
