@@ -1,6 +1,9 @@
 class Response:
 
     def __init__(self):
+        self.reset()
+
+    def reset(self):
         self.errors = []
         self.warnings = []
         self.answers = []

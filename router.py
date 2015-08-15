@@ -15,6 +15,7 @@ def login():
 
 @app.route('/r', methods=['POST'])
 def handle_query():
+    r.reset()
     try:
         func_queried = request.json['request']
     except KeyError as e:
