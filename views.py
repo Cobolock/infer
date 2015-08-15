@@ -7,7 +7,7 @@ from flask import render_template, jsonify, request
 def index():
     return render_template('index.html')
 
-@app.route('login')
+@app.route('/login')
 def login():
     return 'not logged'
 
