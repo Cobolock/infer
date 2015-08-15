@@ -1,4 +1,4 @@
-from infer import app
+from infer import app, model, response_obj as r
 from flask import render_template, jsonify, request
 
 
@@ -16,7 +16,17 @@ def login():
 @app.route('/r', methods=['POST'])
 def handle_query():
     try:
-        func_query = request.json['requuest']
-    except Exception as e:
-        print(type(e))
-    return ''
+        func_queried = request.json['request']
+    except KeyError as e:
+        r.append(rtype='e', text='invalid json syntax, got '+e)
+    mc = model.Controller
+    models = {
+        "createNewElement": mc.create_new_element
+    }
+    try:
+        call = models[func_queried]
+    except KeyError as e:
+        r.append(rtype='e', text='call to non-existing model: '+e)
+    attr = request.json.get('attr', None)
+    call(attr)
+    return jsonify(r.prepare())
