@@ -72,7 +72,7 @@ Element.Create = function(){
         var parentTag = (parent == undefined)?
                             ('root'):
                             (getData(parent, 'tag'))
-        var query = {'request': 'createNewElement',
+        var query = {'requesst': 'createNewElement',
                      'attr': {
                         'name': newName,
                         'parent': parentTag,

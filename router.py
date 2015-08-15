@@ -19,4 +19,4 @@ def handle_query():
         func_query = request.json['request']
     except Exception as e:
         print(type(e))
-    return 'olo'
+    return ''
