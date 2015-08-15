@@ -1,4 +1,5 @@
 from flask import Flask
-from infer import views
 
 app = Flask(__name__)
+
+from infer import views
