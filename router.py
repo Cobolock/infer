@@ -19,6 +19,7 @@ def handle_query():
         func_queried = request.json['request']
     except KeyError as e:
         r.append(rtype='e', text='invalid json syntax, got '+e)
+        func_queried = 'dummy'
     mc = model.Controller
     models = {
         "createNewElement": mc.create_new_element
@@ -27,6 +28,7 @@ def handle_query():
         call = models[func_queried]
     except KeyError as e:
         r.append(rtype='e', text='call to non-existing model: '+e)
+        def call(*args): pass
     attr = request.json.get('attr', None)
     call(attr)
     return jsonify(r.prepare())

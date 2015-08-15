@@ -1,5 +1,5 @@
 from flask import Flask
-from response import Response
+from infer.response import Response
 
 app = Flask(__name__)
 response_obj = Response()
