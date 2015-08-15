@@ -15,6 +15,7 @@ def login():
 
 @app.route('/r', methods=['POST'])
 def handle_query():
+    print('QWE')
     try:
         func_query = request.json['request']
     except Exception as e:
