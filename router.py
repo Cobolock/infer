@@ -1,11 +1,5 @@
 from infer import app, model, response_obj as r
-from flask import render_template, jsonify, request
-
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
+from flask import render_template, jsonify, request, session, redirect, url_for
 
 
 @app.route('/login')
@@ -13,6 +7,24 @@ def login():
     return 'not logged'
 
 
+def authorize(f, access_level='manager', redirect_to='login'):
+    try:
+        user = session.user
+    except KeyError:
+        redirect(url_for(redirect_to))
+    if user.authorised:
+        return f
+    redirect(url_for(redirect_to))
+
+
+@authorize
+@app.route('/')
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+
+@authorize
 @app.route('/r', methods=['POST'])
 def handle_query():
     r.reset()
