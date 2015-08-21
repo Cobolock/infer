@@ -17,9 +17,9 @@ def authorize(f, access_level='manager', redirect_to='login'):
     redirect(url_for(redirect_to))
 
 
-@authorize
 @app.route('/')
 @app.route('/index')
+@authorize
 def index():
     return render_template('index.html')
 
