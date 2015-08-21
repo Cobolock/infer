@@ -11,7 +11,8 @@ def login():
 def authorize(f, access_level='manager', redirect_to='login'):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if g.user is None:
+        u = session.get('user', None)
+        if u is None:
             return redirect(url_for(redirect_to, next=request.url))
         return f(*args, **kwargs)
     return decorated_function
