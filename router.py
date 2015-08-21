@@ -5,25 +5,29 @@ from flask import render_template, jsonify, request, session, redirect, url_for
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'user.name' in request.form:
-        session.user = {}
-        session.user['name'] = request.form['user.name']
-        session.user['role'] = user.User.names.get(session.user.name, 1)
+    if request.method == 'POST':
+        try:
+            u = session['user']
+        except KeyError:
+            u = session['user'] = {}
+        u['name'] = request.form['userName']
+        u['role'] = user.User.names.get(u['name'], 1)
         if 'next' in request.args:
             next_hop = request.args['next']
         else:
             next_hop = 'index'
-        redirect(url_for(next_hop))
+        return redirect(url_for(next_hop))
     return render_template('login.html')
 
 
 def authorize(f, access_level='manager', redirect_to='login'):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        print(dir(session))
         u = session.get('user', None)
         if u is None:
             return redirect(url_for(redirect_to, next=request.url))
-        if u is not None and u.role < user.User.levels[access_level]:
+        if u is not None and u['role'] < user.User.levels[access_level]:
             return redirect(url_for(request.url, message='access denied'))
         return f(*args, **kwargs)
     return decorated_function
