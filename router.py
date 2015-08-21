@@ -1,5 +1,6 @@
+from functools import wraps
 from infer import app, model, response_obj as r
-from flask import render_template, jsonify, request, session, redirect, url_for
+from flask import render_template, jsonify, request, session, redirect, url_for, g
 
 
 @app.route('/login')
@@ -8,14 +9,12 @@ def login():
 
 
 def authorize(f, access_level='manager', redirect_to='login'):
-    # try:
-    #     currentUser = session.user
-    # except (KeyError, AttributeError):
-    #     redirect(url_for(redirect_to))
-    # if currentUser.authorised:
-    #     return f
-    # redirect(url_for(redirect_to))
-    return f
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for(redirect_to, next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 @app.route('/')
@@ -25,8 +24,8 @@ def index():
     return render_template('index.html')
 
 
-@authorize
 @app.route('/r', methods=['POST'])
+@authorize
 def handle_query():
     r.reset()
 
