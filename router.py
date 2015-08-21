@@ -10,7 +10,7 @@ def login():
 def authorize(f, access_level='manager', redirect_to='login'):
     try:
         currentUser = session.user
-    except KeyError, AttributeError:
+    except (KeyError, AttributeError):
         redirect(url_for(redirect_to))
     if currentUser.authorised:
         return f
