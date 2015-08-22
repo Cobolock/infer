@@ -14,6 +14,8 @@ def login():
             u['role'] = user.User.names.get(u['name'], 1)
         if 'next' in request.args:
             next_hop = request.args['next']
+            if next_hop.startswith('/'):
+                next_hop = next_hop[1:]
         else:
             next_hop = 'index'
         g.users = g.get('users', [])
