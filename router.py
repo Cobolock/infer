@@ -1,6 +1,6 @@
 from functools import wraps
 from infer import app, model, user, response_obj as r
-from flask import render_template, jsonify, request, session, redirect, url_for, g
+from flask import render_template, jsonify, request, session, redirect, url_for
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -20,9 +20,9 @@ def login():
             next_hop = 'index' if next_hop == '' else next_hop
         else:
             next_hop = 'index'
-        g.users = g.get('users', [])
-        if u['name'] not in g.users:
-            g.users.append(u['name'])
+        user.User.online = user.User.get('online', [])
+        if u['name'] not in user.User.online:
+            user.User.online.append(u['name'])
         # return redirect(url_for(next_hop))
         return redirect(url_for('index'))
     return render_template('login.html')
@@ -44,7 +44,7 @@ def authorize(f, access_level='manager', redirect_to='login'):
 @app.route('/index')
 @authorize
 def index():
-    users = g.get('users', False)
+    users = user.User.get('online', False)
     print(users)
     return render_template('index.html', users=users)
 
