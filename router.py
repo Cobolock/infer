@@ -1,6 +1,6 @@
 from functools import wraps
 from infer import app, model, user, response_obj as r
-from flask import render_template, jsonify, request, session, redirect, url_for
+from flask import render_template, jsonify, request, session, redirect, url_for, g
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -10,12 +10,15 @@ def login():
             u = session['user']
         except KeyError:
             u = session['user'] = {}
-        u['name'] = request.form['userName']
-        u['role'] = user.User.names.get(u['name'], 1)
+            u['name'] = request.form['userName']
+            u['role'] = user.User.names.get(u['name'], 1)
         if 'next' in request.args:
             next_hop = request.args['next']
         else:
             next_hop = 'index'
+        g['users'] = g.get('users', [])
+        if u['name'] not in g['users']:
+            g['users'].append(u['name'])
         return redirect(url_for(next_hop))
     return render_template('login.html')
 
@@ -23,12 +26,11 @@ def login():
 def authorize(f, access_level='manager', redirect_to='login'):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        print(dir(session))
         u = session.get('user', None)
         if u is None:
-            return redirect(url_for(redirect_to, next=request.url))
+            return redirect(url_for(redirect_to, next=request.path))
         if u is not None and u['role'] < user.User.levels[access_level]:
-            return redirect(url_for(request.url, message='access denied'))
+            return redirect(url_for(request.path, message='access denied'))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -37,7 +39,8 @@ def authorize(f, access_level='manager', redirect_to='login'):
 @app.route('/index')
 @authorize
 def index():
-    return render_template('index.html')
+    users = g.get('users', False)
+    return render_template('index.html', users=users)
 
 
 @app.route('/r', methods=['POST'])

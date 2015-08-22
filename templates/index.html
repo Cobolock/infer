@@ -4,6 +4,14 @@
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
   </head>
   <body>
+      {% if users %}
+      <div>Пользователи онлайн:</div>
+      <ul>
+      {% for user in users %}
+      <li>{{ user }}</li>
+      {% endfor %}
+      </ul>
+      {% endif %}
       <h1>Делаем фиготу</h1>
       <div id="error"></div>
       <select id="elementsList">
