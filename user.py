@@ -1,7 +1,7 @@
 class User:
 
-    def get(self, seed, default):
-        return getattr(self, seed, default)
+    def get(seed, default):
+        return getattr(User, seed, default)
 
     levels = {
         'guest': 1,
