@@ -17,6 +17,7 @@ def login():
             print(next_hop)
             if next_hop.startswith('/'):
                 next_hop = next_hop[1:]
+            next_hop = 'index' if next_hop == '' else next_hop
         else:
             next_hop = 'index'
         g.users = g.get('users', [])
