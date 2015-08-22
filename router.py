@@ -45,6 +45,7 @@ def authorize(f, access_level='manager', redirect_to='login'):
 @authorize
 def index():
     users = g.get('users', False)
+    print(users)
     return render_template('index.html', users=users)
 
 
