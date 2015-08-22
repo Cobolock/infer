@@ -23,7 +23,8 @@ def login():
         g.users = g.get('users', [])
         if u['name'] not in g.users:
             g.users.append(u['name'])
-        return redirect(url_for(next_hop))
+        # return redirect(url_for(next_hop))
+        return redirect(url_for('index'))
     return render_template('login.html')
 
 
