@@ -16,7 +16,9 @@ def login():
             next_hop = request.args['next']
         else:
             next_hop = 'index'
-        g['users'] = g.get('users', [])
+        if 'users' not in g:
+            g['users'] = []
+        # g['users'] = g.get('users', [])
         if u['name'] not in g['users']:
             g['users'].append(u['name'])
         return redirect(url_for(next_hop))
